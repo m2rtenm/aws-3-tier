@@ -1,13 +1,8 @@
-locals {
-  vpc_name = "backend"
-  vpc_cidr = "10.0.0.0/16"
-}
-
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.17.0"
 
-  name = "${local.vpc_name}-vpc"
+  name = "${local.name}-vpc"
   cidr = local.vpc_cidr
 
   azs              = var.azs
@@ -19,6 +14,8 @@ module "vpc" {
   enable_nat_gateway     = true
   single_nat_gateway     = false
   one_nat_gateway_per_az = true
+
+  create_database_subnet_group = true
 
   public_subnet_tags = {
     "kubernetes.io/role/elb" = 1
