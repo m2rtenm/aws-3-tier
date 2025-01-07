@@ -1,1 +1,1 @@
-# aws-3-tier
+# Multi tier architecture in AWS
