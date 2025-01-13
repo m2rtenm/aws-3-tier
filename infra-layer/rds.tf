@@ -13,12 +13,13 @@ module "rds_master" {
   allocated_storage     = local.allocated_storage
   max_allocated_storage = local.max_allocated_storage
 
-  db_name  = "${local.name}-db"
+  db_name  = "${local.name}db"
   username = "appdbuser"
   port     = local.port
 
-  multi_az             = true
-  db_subnet_group_name = module.vpc.database_subnet_group_name
+  multi_az               = true
+  db_subnet_group_name   = module.vpc.database_subnet_group_name
+  vpc_security_group_ids = [module.security_group.security_group_id]
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
@@ -53,11 +54,32 @@ module "rds_replica" {
 
   port = local.port
 
-  multi_az             = false
-  db_subnet_group_name = module.vpc.database_subnet_group_name
+  multi_az               = false
+  db_subnet_group_name   = module.vpc.database_subnet_group_name
+  vpc_security_group_ids = [module.security_group.security_group_id]
 
   backup_retention_period = 0
   skip_final_snapshot     = true
   deletion_protection     = false
   storage_encrypted       = false
+}
+
+module "security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "4.0.0"
+
+  name        = "${local.name}-rds-sg"
+  description = "Security group for RDS"
+
+  vpc_id = module.vpc.vpc_id
+
+  ingress_with_source_security_group_id = [
+    {
+      from_port                = 5432
+      to_port                  = 5432
+      protocol                 = "tcp"
+      description              = "PostgreSQL"
+      source_security_group_id = module.eks.node_security_group_id
+    }
+  ]
 }

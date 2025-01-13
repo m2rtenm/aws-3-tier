@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.31.6"
 
-  cluster_name    = "${local.name}-eks-cluster"
+  cluster_name    = "${local.name}-eks"
   cluster_version = "1.31"
 
   cluster_addons = {
@@ -32,9 +32,9 @@ module "eks" {
       ami_type       = "AL2023_x86_64_STANDARD"
       instance_types = ["t3.medium"]
 
-      min_capacity     = 1
-      desired_capacity = 2
-      max_capacity     = 3
+      min_capacity     = 2
+      desired_capacity = 3
+      max_capacity     = 4
     }
   }
 }
