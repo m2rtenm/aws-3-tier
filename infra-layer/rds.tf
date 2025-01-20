@@ -74,6 +74,6 @@ resource "aws_security_group" "rds_sg" {
     to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = module.vpc.database_subnets_cidr_blocks
-    security_groups = [module.eks.node_security_group_id]
+    security_groups = [ module.eks.cluster_security_group_id, module.eks.node_security_group_id ]
   }
 }
