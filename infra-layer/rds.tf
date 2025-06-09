@@ -2,7 +2,7 @@ module "rds_master" {
   source  = "terraform-aws-modules/rds/aws"
   version = "6.10.0"
 
-  identifier = "${local.name}-rds-master"
+  identifier = "${local.name}-${var.environment_identifier}-rds-master"
 
   engine               = local.engine
   engine_version       = local.engine_version
@@ -13,7 +13,7 @@ module "rds_master" {
   allocated_storage     = local.allocated_storage
   max_allocated_storage = local.max_allocated_storage
 
-  db_name  = "${local.name}db"
+  db_name  = "${local.name}-${var.environment_identifier}-db"
   username = "appdbuser"
   port     = local.port
 
@@ -35,7 +35,7 @@ module "rds_replica" {
   source  = "terraform-aws-modules/rds/aws"
   version = "6.10.0"
 
-  identifier = "${local.name}-rds-replica"
+  identifier = "${local.name}-${var.environment_identifier}-rds-replica"
 
   replicate_source_db = module.rds_master.db_instance_arn
 
@@ -65,7 +65,7 @@ module "rds_replica" {
 }
 
 resource "aws_security_group" "rds_sg" {
-  name = "${local.name}-rds-sg"
+  name = "${local.name}-${var.environment_identifier}-rds-sg"
   description = "Security group for RDS"
   vpc_id = module.vpc.vpc_id
 

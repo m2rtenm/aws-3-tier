@@ -1,4 +1,11 @@
 terraform {
+  backend "s3" {
+    bucket = "tfstate-3-tier"
+    key = "tf/terraform.tfstate"
+    region = "eu-north-1"
+    profile = "shared"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -11,4 +18,5 @@ terraform {
 
 provider "aws" {
   region = var.region
+  profile = var.environment_identifier
 }
