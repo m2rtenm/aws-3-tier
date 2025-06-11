@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "tfstate-3-tier"
-    key = "tf/terraform.tfstate"
-    region = "eu-north-1"
+    bucket  = "tfstate-3-tier"
+    key     = "tf/terraform.tfstate"
+    region  = "eu-north-1"
     profile = "shared"
   }
 
@@ -17,6 +17,6 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region  = var.region
   profile = var.environment_identifier
 }

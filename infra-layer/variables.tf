@@ -7,4 +7,6 @@ variable "azs" {
   default = ["eu-north-1a", "eu-north-1b", "eu-north-1c"]
 }
 
-variable "environment_identifier" {}
+variable "environment_identifier" {
+  description = "Identifier for the environment - dev or prod"
+}

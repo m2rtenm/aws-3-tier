@@ -65,15 +65,15 @@ module "rds_replica" {
 }
 
 resource "aws_security_group" "rds_sg" {
-  name = "${local.name}-${var.environment_identifier}-rds-sg"
+  name        = "${local.name}-${var.environment_identifier}-rds-sg"
   description = "Security group for RDS"
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = module.vpc.database_subnets_cidr_blocks
-    security_groups = [ module.eks.cluster_security_group_id, module.eks.node_security_group_id ]
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    cidr_blocks     = module.vpc.database_subnets_cidr_blocks
+    security_groups = [module.eks.node_security_group_id]
   }
 }
