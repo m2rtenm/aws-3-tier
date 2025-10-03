@@ -1,5 +1,3 @@
-# Multi tier architecture in AWS
-```markdown
 # Multi-tier architecture on AWS
 
 This repository contains Terraform code to provision a 3-tier AWS environment (VPC, EKS cluster, and RDS) and Kubernetes manifests for a simple frontend/backend application running on the cluster.
